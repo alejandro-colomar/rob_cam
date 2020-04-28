@@ -25,7 +25,6 @@ kind: Deployment
 metadata:
     name: rob
 spec:
-    replicas: 2
     selector:
         matchLabels:
             name: rob
@@ -69,7 +68,7 @@ spec:
                     value: ""
 ---
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
     name: cam
 spec:
