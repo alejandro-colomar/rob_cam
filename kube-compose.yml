@@ -69,7 +69,7 @@ spec:
                     value: ""
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
     name: cam
 spec:
