@@ -74,11 +74,11 @@ struct	Robot_Status {
  ******* static variables *****************************************************
  ******************************************************************************/
 /* environment variables */
-static	char			robot_addr[_POSIX_ARG_MAX];
-static	char			robot_user[_POSIX_ARG_MAX];
-static	char			robot_passwd[_POSIX_ARG_MAX];
-static	char			robot_status_fname[FILENAME_MAX];
-static	char			rob_port[_POSIX_ARG_MAX];
+static	const char		*robot_addr;
+static	const char		*robot_user[_POSIX_ARG_MAX];
+static	const char		*robot_passwd[_POSIX_ARG_MAX];
+static	const char		*robot_status_fname[FILENAME_MAX];
+static	const char		*rob_port[_POSIX_ARG_MAX];
 static	int			rob_cams_max;
 static	int			delay_login;
 static	int			delay_us;
@@ -246,20 +246,24 @@ int	env_init		(void)
 	int	status;
 
 	status	= -1;
-	if (getenv_s(robot_addr, ARRAY_SIZE(robot_addr), ENV_ROBOT_ADDR))
+	robot_addr	= getenv(ENV_ROBOT_ADDR);
+	if (!robot_addr)
 		goto err;
 	status--;
-	if (getenv_s(robot_user, ARRAY_SIZE(robot_user), ENV_ROBOT_USER))
+	robot_user	= getenv(ENV_ROBOT_USER);
+	if (!robot_user)
 		goto err;
 	status--;
-	if (getenv_s(robot_passwd, ARRAY_SIZE(robot_passwd), ENV_ROBOT_PASSWD))
+	robot_passwd	= getenv(ENV_ROBOT_PASSWD);
+	if (!robot_passwd)
 		goto err;
 	status--;
-	if (getenv_s(robot_status_fname, ARRAY_SIZE(robot_status_fname),
-							ENV_ROBOT_STATUS_FNAME))
+	robot_status_fname = getenv(ENV_ROBOT_STATUS_FNAME);
+	if (!robot_status_fname)
 		goto err;
 	status--;
-	if (getenv_s(rob_port, ARRAY_SIZE(rob_port), ENV_ROB_PORT))
+	rob_port	= getenv(ENV_ROB_PORT);
+	if (!rob_port)
 		goto err;
 	status--;
 	if (getenv_i32(&rob_cams_max, ENV_ROB_CAMS_MAX))

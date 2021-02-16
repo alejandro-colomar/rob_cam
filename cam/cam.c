@@ -52,16 +52,16 @@
  ******* static variables *****************************************************
  ******************************************************************************/
 /* environment variables */
-static	char			rob_addr[_POSIX_ARG_MAX];
-static	char			rob_port[_POSIX_ARG_MAX];
-static	int			camera_idx;
-static	int			delay_us;
+static	const char	*rob_addr;
+static	const char	*rob_port;
+static	int		camera_idx;
+static	int		delay_us;
 /* pid */
-static	pid_t			pid;
+static	pid_t		pid;
 /* camera */
-static	cam_s			*camera;
+static	cam_s		*camera;
 /* rob */
-static	int			rob;
+static	int		rob;
 
 
 /******************************************************************************
@@ -191,10 +191,12 @@ int	env_init	(void)
 	int	status;
 
 	status	= -1;
-	if (getenv_s(rob_addr, ARRAY_SIZE(rob_addr), ENV_ROB_ADDR))
+	rob_addr = getenv(ENV_ROB_ADDR);
+	if (!rob_addr)
 		goto err;
 	status--;
-	if (getenv_s(rob_port, ARRAY_SIZE(rob_port), ENV_ROB_PORT))
+	rob_port = getenv(ENV_ROB_PORT);
+	if (!rob_port)
 		goto err;
 	status--;
 	if (getenv_i32(&camera_idx, ENV_CAMERA_IDX))
